@@ -1,7 +1,10 @@
 # 🎬 Netflix Clone Projesi
 
+🌐 Canlı Demo: https://engincan-film-clone.netlify.app/ 
+
+
 ## 📌 Özet
-Full stack development öğrenme yolculuğumda geliştirdiğim ilk kapsamlı proje. Node.js, Express.js ve PostgreSQL kullanarak Netflix benzeri bir uygulama geliştirdim.
+
 
 ## 🛠 Tech Stack
 - **Frontend:** HTML, CSS, Bootstrap, JavaScript
