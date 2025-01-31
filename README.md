@@ -3,21 +3,6 @@
 ## 📌 Özet
 Full stack development öğrenme yolculuğumda geliştirdiğim ilk kapsamlı proje. Node.js, Express.js ve PostgreSQL kullanarak Netflix benzeri bir uygulama geliştirdim.
 
-## ⚡️ Hızlı Başlangıç
-```bash
-# Projeyi klonlayın
-git clone https://github.com/yourusername/netflix-clone.git
-
-# Bağımlılıkları yükleyin
-npm install
-
-# .env dosyasını oluşturun
-cp .env.example .env
-
-# Uygulamayı başlatın
-npm start
-```
-
 ## 🛠 Tech Stack
 - **Frontend:** HTML, CSS, Bootstrap, JavaScript
 - **Backend:** Node.js, Express.js
