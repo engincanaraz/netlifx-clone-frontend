@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Türkiye - Oturum Aç</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="login-page">
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg">
+        <div class="container-fluid col-11 col-sm-10 col-md-9 col-lg-10 col-xl-10 px-4 mx-auto">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/img/netflix-logo.svg" alt="Netflix" height="45">
+            </a>
+            <div class="d-flex align-items-center">
+                <div class="dropdown me-2">
+                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown">
+                        <i class="fas fa-globe me-1"></i> Türkçe
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item active" href="#">Türkçe</a></li>
+                        <li><a class="dropdown-item" href="#">English</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="login-main">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="login-form-container">
+                        <h1>Oturum Aç</h1>
+                        <form id="loginForm" class="login-form">
+                            <div class="form-group">
+                                <input type="email" id="email" class="form-control" placeholder="E-posta veya telefon numarası" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="password" class="form-control" placeholder="Parola" required>
+                            </div>
+                            <button type="submit" class="btn btn-netflix btn-lg w-100">Oturum Aç</button>
+                            <div class="form-check mt-3">
+                                <input type="checkbox" class="form-check-input" id="rememberMe">
+                                <label class="form-check-label" for="rememberMe">Beni hatırla</label>
+                            </div>
+                        </form>
+                        <div class="login-footer">
+                            <p>Netflix'te yeni misin? <a href="register.html">Şimdi kaydol.</a></p>
+                        </div>
+                        <div id="loginResponse" class="alert d-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-5">
+        <div class="container-fluid col-11 col-sm-10 col-md-9 col-lg-8 col-xl-7">
+            <div class="footer-top mb-5">
+                <p class="text-muted mb-4">Sorularınız mı var? <a href="tel:0850-390-7444" class="text-decoration-none">0850-390-7444</a> numaralı telefonu arayın</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-6 col-md-3">
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#" class="d-inline-block"><span>SSS</span></a></li>
+                        <li><a href="#" class="d-inline-block"><span>Yardım Merkezi</span></a></li>
+                        <li><a href="#" class="d-inline-block"><span>Kullanım Koşulları</span></a></li>
+                        <li><a href="#" class="d-inline-block"><span>Gizlilik</span></a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3">
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#" class="d-inline-block"><span>Çerez Tercihleri</span></a></li>
+                        <li><a href="#" class="d-inline-block"><span>Kurumsal Bilgiler</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom mt-5">
+                <div class="dropdown mb-4">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="footerLanguageDropdown" data-bs-toggle="dropdown">
+                        <i class="fas fa-globe me-2"></i> Türkçe
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item active" href="#"><i class="fas fa-check me-2"></i>Türkçe</a></li>
+                        <li><a class="dropdown-item" href="#">English</a></li>
+                    </ul>
+                </div>
+                <p class="text-muted small mb-0">Netflix Türkiye</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Sayfa yüklendiğinde localStorage'dan email'i al
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedEmail = localStorage.getItem('userEmail');
+            if (savedEmail) {
+                document.getElementById('email').value = savedEmail;
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const responseDiv = document.getElementById('loginResponse');
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: document.getElementById('email').value,
+                        password: document.getElementById('password').value
+                    })
+                });
+
+                const data = await response.json();
+                
+                responseDiv.classList.remove('d-none', 'alert-success', 'alert-danger');
+                if (response.ok) {
+                    responseDiv.classList.add('alert-success');
+                    responseDiv.textContent = 'Giriş başarılı! Yönlendiriliyorsunuz...';
+                    localStorage.setItem('token', data.data.token);
+                    // index sayfasına yönlendir
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    responseDiv.classList.add('alert-danger');
+                    responseDiv.textContent = data.message || 'Giriş başarısız!';
+                }
+            } catch (error) {
+                responseDiv.classList.remove('d-none');
+                responseDiv.classList.add('alert-danger');
+                responseDiv.textContent = 'Bir hata oluştu: ' + error.message;
+            }
+        });
+    </script>
+
+    <style>
+        .login-page {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/img/background.jpg');
+            background-size: cover;
+            min-height: 100vh;
+            color: white;
+        }
+        .login-header {
+            padding: 20px 0;
+        }
+        .netflix-logo {
+            height: 45px;
+        }
+        .login-main {
+            padding: 60px 0;
+        }
+        .login-form-container {
+            background: rgba(0, 0, 0, 0.75);
+            padding: 60px 40px;
+            border-radius: 4px;
+        }
+        .login-form-container h1 {
+            margin-bottom: 28px;
+            font-size: 32px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-control {
+            background-color: #333;
+            border: none;
+            color: white;
+            padding: 16px;
+            height: auto;
+        }
+        .form-control:focus {
+            background-color: #454545;
+            color: white;
+            box-shadow: none;
+        }
+        .btn-netflix {
+            background-color: #e50914;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            margin-top: 24px;
+        }
+        .btn-netflix:hover {
+            background-color: #f40612;
+            color: white;
+        }
+        .form-check-label {
+            color: #b3b3b3;
+        }
+        .login-footer {
+            margin-top: 60px;
+            color: #737373;
+        }
+        .login-footer a {
+            color: white;
+            text-decoration: none;
+        }
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+        footer {
+            background: rgba(0, 0, 0, 0.75);
+            color: #737373;
+        }
+        .footer-links a {
+            color: #737373;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</body>
+</html> 
